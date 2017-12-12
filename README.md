@@ -1,2 +1,28 @@
-# rails-sfc
-Combine your HTML, CSS, and Javascript for components into a single file for organization but run in production compiled into separate files. Inspired by VueJS single file components.
+# Rails::Sfc
+Short description and motivation.
+
+## Usage
+How to use my plugin.
+
+## Installation
+Add this line to your application's Gemfile:
+
+```ruby
+gem 'rails-sfc'
+```
+
+And then execute:
+```bash
+$ bundle
+```
+
+Or install it yourself as:
+```bash
+$ gem install rails-sfc
+```
+
+## Contributing
+Contribution directions go here.
+
+## License
+The gem is available as open source under the terms of the [MIT License](http://opensource.org/licenses/MIT).
