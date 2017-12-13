@@ -9,9 +9,9 @@ Gem::Specification.new do |s|
   s.version     = Rails::Sfc::VERSION
   s.authors     = ["Daniel Fox"]
   s.email       = ["romaimperator@gmail.com"]
-  s.homepage    = "TODO"
-  s.summary     = "TODO: Summary of Rails::Sfc."
-  s.description = "TODO: Description of Rails::Sfc."
+  s.homepage    = "http://localhost"
+  s.summary     = "Provides single file components ala VueJS."
+  s.description = "Provides single file components ala VueJS."
   s.license     = "MIT"
 
   s.files = Dir["{app,config,db,lib}/**/*", "MIT-LICENSE", "Rakefile", "README.md"]
