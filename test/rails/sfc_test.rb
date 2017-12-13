@@ -13,6 +13,6 @@ class Rails::Sfc::Test < ActiveSupport::TestCase
   end
 
   test "a single file component can be loaded" do
-    assert_kind_of String, @view.render(template: 'test', formats: [:sfc])
+    assert_equal "<h1>Hello</h1>", @view.render(template: 'components/my_component')
   end
 end
