@@ -1,0 +1,22 @@
+<template>
+  <ul>
+    <% todos.each do |todo| %>
+      <li>
+        <%= todo %>
+        <button class="remove-todo" data-id="<%= todo.id %>">remove</button>
+      </li>
+    <% end %>
+  </ul>
+  <button class="add-todo">Add todo</button>
+</template>
+
+<script>
+$('.add-todo').on('click', () => $.ajax('/todos/create', method: 'POST'))
+$('.remove-todo').on('click', () => $.ajax('/todos/' + this.data('id') + '/remove', method: 'DELETE'))
+</script>
+
+<style scoped>
+ul {
+  font-size: 20px
+}
+</style>
