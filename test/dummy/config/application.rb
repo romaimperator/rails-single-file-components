@@ -3,7 +3,7 @@ require_relative 'boot'
 require 'rails/all'
 
 Bundler.require(*Rails.groups)
-require "rails/sfc"
+require "rails_single_file_components/rails_single_file_components"
 
 module Dummy
   class Application < Rails::Application

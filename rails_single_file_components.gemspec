@@ -1,12 +1,12 @@
 $:.push File.expand_path("../lib", __FILE__)
 
 # Maintain your gem's version:
-require "rails/sfc/version"
+require "rails_single_file_components/version"
 
 # Describe your gem and declare its dependencies:
 Gem::Specification.new do |s|
   s.name        = "rails-sfc"
-  s.version     = Rails::Sfc::VERSION
+  s.version     = RailsSingleFileComponents::VERSION
   s.authors     = ["Daniel Fox"]
   s.email       = ["romaimperator@gmail.com"]
   s.homepage    = "http://localhost"

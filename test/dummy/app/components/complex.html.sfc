@@ -17,6 +17,6 @@ $('.remove-todo').on('click', () => $.ajax('/todos/' + this.data('id') + '/remov
 
 <style scoped>
 ul {
-  font-size: 20px
+  font-size: 20px;
 }
 </style>

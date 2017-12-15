@@ -3,7 +3,7 @@ require 'test_helper'
 class TestController < ActionController::Base
 end
 
-class Rails::Sfc::Test < ActiveSupport::TestCase
+class RailsSingleFileComponents::Test < ActiveSupport::TestCase
   def setup
     paths = ActionController::Base.view_paths
     @assigns = { secret: "in the sauce" }
@@ -13,6 +13,12 @@ class Rails::Sfc::Test < ActiveSupport::TestCase
   end
 
   test "a single file component can be loaded" do
-    assert_equal "<h1>Hello</h1>", @view.render(template: 'components/my_component')
+    assert_equal "<h1>Hello</h1>", @view.sfc_component('simple')
+  end
+
+  test "a missing file raises an error" do
+    assert_raises RailsSingleFileComponents::MissingComponentException do
+      @view.sfc_component('asdfasdf')
+    end
   end
 end
