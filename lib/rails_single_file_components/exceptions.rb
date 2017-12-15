@@ -1,4 +1,4 @@
 module RailsSingleFileComponents
-  class MissingComponentException < RuntimeError
-  end
+  class CompilationException < RuntimeError; end
+  class MissingComponentException < RuntimeError; end
 end

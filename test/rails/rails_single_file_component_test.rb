@@ -21,4 +21,10 @@ class RailsSingleFileComponents::Test < ActiveSupport::TestCase
       @view.sfc_component('asdfasdf')
     end
   end
+
+  test "a template can only contain a single top-level tag" do
+    assert_raises RailsSingleFileComponents::CompilationException do
+      @view.sfc_component('multiple_top_level_tags')
+    end
+  end
 end

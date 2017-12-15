@@ -15,6 +15,10 @@ module RailsSingleFileComponents
           _, template = template.split("<template>")
           template, _ = template.split("</template>")
         end
+        document = Nokogiri::XML.fragment(template.gsub("\n", "").strip)
+        if document.children.length > 1
+          fail CompilationException.new("Template #{file}.html.sfc contains more than one root.")
+        end
         template.strip!
         template.html_safe
       end
