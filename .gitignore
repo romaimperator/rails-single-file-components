@@ -2,3 +2,5 @@
 test/dummy/log/
 test/dummy/db/test.sqlite3
 .byebug_history
+test/dummy/public/components/
+test/dummy/tmp/
