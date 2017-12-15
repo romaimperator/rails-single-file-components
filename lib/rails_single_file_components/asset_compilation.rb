@@ -23,14 +23,16 @@ module RailsSingleFileComponents
     private
 
       def fetch_styles(filename)
-        source = nil
+        source_styles = nil
         File.open(filename, 'r') do |f|
-          source = f.read
-          _, source = source.split(/<style.*>/)
-          source, _ = source.split("</style>")
-          source.strip!
+          source_styles = f.read
+          _, source_styles = source_styles.split(/<style.*>/)
+          if source_styles
+            source_styles, _ = source_styles.split("</style>")
+            source_styles.strip!
+          end
         end
-        source
+        source_styles
       end
   end
 end
