@@ -20,4 +20,5 @@ Gem::Specification.new do |s|
   s.add_dependency "sass", "~> 3.5.1"
 
   s.add_development_dependency "sqlite3"
+  s.add_development_dependency "haml"
 end

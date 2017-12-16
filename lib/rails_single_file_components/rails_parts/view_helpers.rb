@@ -14,10 +14,15 @@ module RailsSingleFileComponents
         template = nil
         File.open(matches.first, 'r') do |f|
           template = f.read
-          _, template = template.split("<template>")
-          template, _ = template.split("</template>")
         end
-        document = Nokogiri::XML.fragment(template.gsub("\n", "").strip)
+        attributes = /<template(.*)>/.match(template).captures.first
+        possible_attributes = /([[:alnum:]]+)[=]?"(.*)?"/.match(attributes)
+        parsed_attributes = Hash[possible_attributes.captures.each_slice(2).to_a] if possible_attributes
+        _, template = template.split(/<template.*>/)
+        template, _ = template.split('</template>')
+        parsed_attributes ||= Hash.new
+        rendered_template = render inline: template, type: parsed_attributes['lang']&.to_sym || :erb
+        document = Nokogiri::XML.fragment(rendered_template.gsub("\n", "").strip)
         if document.children.length > 1
           fail CompilationException.new("Template #{file}.html.sfc contains more than one root.")
         else

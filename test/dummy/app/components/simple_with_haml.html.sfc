@@ -1,0 +1,13 @@
+<template lang="haml">
+%div
+  %h1= @a_variable
+  %p
+    This is a second top-level tag.
+  = sfc_component 'simple'
+</template>
+
+<style scoped>
+h1 {
+  font-weight: bold;
+}
+</style>
