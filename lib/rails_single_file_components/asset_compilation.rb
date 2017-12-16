@@ -1,4 +1,5 @@
 require 'digest'
+require 'sass'
 
 module RailsSingleFileComponents
   class AssetCompilation
@@ -24,13 +25,22 @@ module RailsSingleFileComponents
 
       def fetch_styles(filename)
         source_styles = nil
+        style_line = nil
         File.open(filename, 'r') do |f|
-          source_styles = f.read
+          current_line = ''
+          until current_line =~ /<style/ || f.eof?
+            current_line = f.readline
+          end
+          style_line = current_line
+          source_styles = style_line + f.read
           _, source_styles = source_styles.split(/<style.*>/)
           if source_styles
             source_styles, _ = source_styles.split("</style>")
             source_styles.strip!
           end
+        end
+        if style_line =~ /scoped/
+          source_styles.gsub!(/([[:space:]][{])/, "[data-sfc-#{Digest::MD5.hexdigest(Rails.root.join(filename).to_s)}]\\1")
         end
         source_styles
       end

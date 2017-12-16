@@ -6,4 +6,7 @@
 h1 {
     font-size: 100px;
 }
+div h2 {
+    width: 100%;
+}
 </style>

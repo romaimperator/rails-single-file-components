@@ -1,3 +1,5 @@
+require 'digest'
+
 module RailsSingleFileComponents
   module RailsParts
     module ViewHelpers
@@ -18,9 +20,12 @@ module RailsSingleFileComponents
         document = Nokogiri::XML.fragment(template.gsub("\n", "").strip)
         if document.children.length > 1
           fail CompilationException.new("Template #{file}.html.sfc contains more than one root.")
+        else
+          document.child["data-sfc-#{Digest::MD5.hexdigest(matches.first)}"] = ""
         end
-        template.strip!
-        template.html_safe
+        # template.strip!
+        # template.html_safe
+        document.to_xml.html_safe
       end
     end
   end
