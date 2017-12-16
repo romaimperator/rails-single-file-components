@@ -1,0 +1,11 @@
+<template>
+  <h2>Hello</h2>
+</template>
+
+<style lang="sass" scoped>
+h2
+    font-size: 50px
+
+div h2
+    width: 100%
+</style>
