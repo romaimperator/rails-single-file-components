@@ -21,7 +21,9 @@ module RailsSingleFileComponents
         if document.children.length > 1
           fail CompilationException.new("Template #{file}.html.sfc contains more than one root.")
         else
-          document.child["data-sfc-#{Digest::MD5.hexdigest(matches.first)}"] = ""
+          document.traverse do |node|
+            node["data-sfc-#{Digest::MD5.hexdigest(matches.first)}"] = ""
+          end
         end
         # template.strip!
         # template.html_safe

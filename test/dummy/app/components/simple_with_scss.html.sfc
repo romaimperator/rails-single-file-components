@@ -1,11 +1,17 @@
 <template>
-  <h2>Hello</h2>
+  <div>
+    <h2>Hello</h2>
+    <p>Another tag</p>
+  </div>
 </template>
 
-<style lang="sass" scoped>
-h2
-    font-size: 50px
-
-div h2
-    width: 100%
+<style lang="scss" scoped>
+div {
+    h2 {
+        font-size: 50px;
+    }
+    p {
+        background-color: blue;
+    }
+}
 </style>
