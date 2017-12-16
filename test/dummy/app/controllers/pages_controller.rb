@@ -1,4 +1,4 @@
 class PagesController < ApplicationController
-  def simple
+  def component
   end
 end
