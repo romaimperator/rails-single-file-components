@@ -1,0 +1,12 @@
+<template>
+  <div>
+    <h1>Hello</h1>
+    <h2>Another</h2>
+  </div>
+</template>
+
+<style scoped>
+h1, h2 {
+  font-size: 100px;
+}
+</style>

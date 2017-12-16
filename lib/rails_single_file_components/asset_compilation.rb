@@ -45,7 +45,7 @@ module RailsSingleFileComponents
           source_styles = Sass.compile(source_styles, syntax: :scss)
         end
         if style_line =~ /scoped/
-          source_styles.gsub!(/([[:space:]][{])/, "[data-sfc-#{Digest::MD5.hexdigest(Rails.root.join(filename).to_s)}]\\1")
+          source_styles.gsub!(/([[:space:]]*[{]|[[:space:]]*,)/, "[data-sfc-#{Digest::MD5.hexdigest(Rails.root.join(filename).to_s)}]\\1")
         end
         source_styles
       end
