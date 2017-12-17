@@ -1,6 +1,3 @@
-require 'digest'
-require 'sass'
-
 module RailsSingleFileComponents
   class AssetCompilation
     def initialize
@@ -8,11 +5,11 @@ module RailsSingleFileComponents
     end
 
     def compile
-      components = Dir["#{Rails.application.config.rails_single_file_components.component_path}/**/*.sfc"]
+      components = Dir["#{Rails.root.join(Rails.application.config.rails_single_file_components.component_path)}/**/*.sfc"]
       styles = []
       components.each do |filename|
         File.open(filename, 'r') do |f|
-          styles << StyleTransformPipeline.new(f.read, filename).transform
+          styles << StyleTransformPipeline.new(f.read, DataAttribute.compute(filename)).transform
         end
       end
       styles = styles.join("\n")

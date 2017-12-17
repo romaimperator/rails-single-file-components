@@ -1,8 +1,8 @@
 module RailsSingleFileComponents
   class TransformPipeline
-    def initialize(source_io, filename)
+    def initialize(source_io, data_attribute)
       @source_io = source_io
-      @filename = filename
+      @data_attribute = data_attribute
     end
 
     def transform
@@ -48,13 +48,15 @@ module RailsSingleFileComponents
     def apply_scoping_data_attributes(source_io)
       document = Nokogiri::HTML.fragment(source_io)
       document.traverse do |node|
-        node["data-sfc-#{Digest::MD5.hexdigest(@filename)}"] = ""
+        node[@data_attribute] = ""
       end
       document.to_html
     end
   end
 
   class StyleTransformPipeline < TransformPipeline
+    require 'sass'
+
     def parse(parser, source_io)
       parser.style
     end
@@ -79,7 +81,7 @@ module RailsSingleFileComponents
 
       def apply_scoping(scoped, source_io)
         if scoped
-          source_io.gsub(/([[:space:]]*[{]|[[:space:]]*,)/, "[data-sfc-#{Digest::MD5.hexdigest(Rails.root.join(@filename).to_s)}]\\1")
+          source_io.gsub(/([[:space:]]*[{]|[[:space:]]*,)/, "[#{@data_attribute}]\\1")
         else
           source_io
         end

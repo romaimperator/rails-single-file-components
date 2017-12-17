@@ -1,5 +1,3 @@
-require 'digest'
-
 module RailsSingleFileComponents
   module RailsParts
     module ViewHelpers
@@ -15,7 +13,7 @@ module RailsSingleFileComponents
         File.open(matches.first, 'r') do |f|
           template = f.read
         end
-        RailsSingleFileComponents::TemplateTransformPipeline.new(template, matches.first, self).transform.html_safe
+        RailsSingleFileComponents::TemplateTransformPipeline.new(template, DataAttribute.compute(matches.first), self).transform.html_safe
       end
     end
   end
