@@ -1,5 +1,3 @@
-require 'byebug'
-
 module RailsSingleFileComponents
   module RailsParts
     class MyRailtie < ::Rails::Railtie
