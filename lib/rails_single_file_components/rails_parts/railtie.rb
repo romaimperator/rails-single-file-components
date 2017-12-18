@@ -13,6 +13,20 @@ module RailsSingleFileComponents
           include RailsSingleFileComponents::RailsParts::ViewHelpers
         end
       end
+
+      initializer 'rails_single_file_components.append_assets_path', group: :all do |app|
+        app.config.paths.add "app/components", glob: "*.sfc"
+        app.config.assets.paths.unshift('app/components')
+        app.config.assets.paths.unshift(*app.config.paths['app/components'].existent_directories)
+      end
     end
   end
 end
+
+module Sprockets
+  register_mime_type 'text/single_file_component', extensions: ['.sfc']
+  register_transformer 'text/single_file_component', 'text/css', RailsSingleFileComponents::RailsParts::StyleProcessor
+end
+
+# app/assets/stylesheets/components.css.erb
+#<%= styles %>
