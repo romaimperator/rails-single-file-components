@@ -55,6 +55,35 @@ module RailsSingleFileComponents
   end
 
   class StyleTransformPipeline < TransformPipeline
+    class Converter < Sass::Tree::Visitors::Convert
+      def self.visit(root, options, format, id)
+        new(options, format, id).send(:visit, root)
+      end
+
+      def initialize(options, format, id)
+        super(options, format)
+        @id = id
+      end
+
+      def visit_rule(node)
+        byebug
+        rule = node.parsed_rules ? [node.parsed_rules.to_s] : node.rule
+        if @format == :sass
+          name = selector_to_sass(rule)
+          name = "\\" + name if name[0] == ?:
+          name.gsub(/^/, tab_str) + @id + yield
+        elsif @format == :scss
+          name = selector_to_scss(rule)
+          res = name + yield
+          if node.children.last.is_a?(Sass::Tree::CommentNode) && node.children.last.type == :silent
+            res.slice!(-3..-1)
+            res << "\n" << tab_str << "}\n"
+          end
+          res
+        end
+      end
+    end
+
     require 'sass'
 
     def parse(parser, source_io)
@@ -63,7 +92,7 @@ module RailsSingleFileComponents
 
     def post_parse(parser, source_io)
       source_io = apply_preprocessor(parser.style_metadata['lang'], source_io)
-      apply_scoping(parser.style_metadata['scoped'], source_io)
+      # apply_scoping(parser.style_metadata['scoped'], source_io)
     end
 
     private
@@ -71,7 +100,13 @@ module RailsSingleFileComponents
       def apply_preprocessor(language, source_io)
         case language
           when 'sass'
-            Sass.compile(source_io, syntax: :sass)
+
+            # Sass.compile(source_io, syntax: :sass)
+            engine = Sass::Engine.new(source_io)
+            tree = engine.to_tree
+            conv = Converter.visit(tree, {}, :sass, "[#{@data_attribute}]")
+            byebug
+            conv
           when 'scss'
             Sass.compile(source_io, syntax: :scss)
           else

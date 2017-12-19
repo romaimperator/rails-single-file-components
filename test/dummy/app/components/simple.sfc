@@ -2,11 +2,11 @@
   <h1>Hello</h1>
 </template>
 
-<style scoped>
-h1 {
-    font-size: 100px;
-}
-div h2 {
-    width: 100%;
-}
+<style lang="sass" scoped>
+h1
+    font-size: $fontstuff
+
+div h2
+    width: 100%
+
 </style>

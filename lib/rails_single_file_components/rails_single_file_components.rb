@@ -1,5 +1,6 @@
 $LOAD_PATH.unshift(File.expand_path('..', __FILE__))
 
+require 'rails_parts/sass_importer'
 require 'rails_parts/style_processor'
 require 'rails_parts/view_helpers'
 require 'rails_parts/railtie'
