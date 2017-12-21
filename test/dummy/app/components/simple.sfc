@@ -3,6 +3,8 @@
 </template>
 
 <style lang="sass" scoped>
+$fontstuff: 10px
+
 h1
     font-size: $fontstuff
 

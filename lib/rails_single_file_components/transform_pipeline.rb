@@ -15,11 +15,11 @@ module RailsSingleFileComponents
       source_io
     end
 
-    def parse(source_io)
+    def parse(parser, source_io)
       fail NotImplementedError
     end
 
-    def post_parse(source_io)
+    def post_parse(parser, source_io)
       source_io
     end
   end
@@ -66,8 +66,11 @@ module RailsSingleFileComponents
       end
 
       def visit_rule(node)
-        byebug
-        rule = node.parsed_rules ? [node.parsed_rules.to_s] : node.rule
+        rule = if node.parsed_rules
+          [node.parsed_rules.to_s.split(',').join("#{@id},")]
+        else
+          node.rule
+        end
         if @format == :sass
           name = selector_to_sass(rule)
           name = "\\" + name if name[0] == ?:
@@ -84,42 +87,27 @@ module RailsSingleFileComponents
       end
     end
 
-    require 'sass'
-
     def parse(parser, source_io)
       parser.style
     end
 
     def post_parse(parser, source_io)
-      source_io = apply_preprocessor(parser.style_metadata['lang'], source_io)
-      # apply_scoping(parser.style_metadata['scoped'], source_io)
+      apply_preprocessor(parser.style_metadata['lang'], source_io)
     end
 
     private
 
       def apply_preprocessor(language, source_io)
-        case language
+        sass_io = case language
           when 'sass'
-
-            # Sass.compile(source_io, syntax: :sass)
-            engine = Sass::Engine.new(source_io)
-            tree = engine.to_tree
-            conv = Converter.visit(tree, {}, :sass, "[#{@data_attribute}]")
-            byebug
-            conv
-          when 'scss'
-            Sass.compile(source_io, syntax: :scss)
-          else
             source_io
+          when 'scss'
+            Sass::CSS.new(Sass.compile(source_io)).render
+          else
+            Sass::CSS.new(source_io).render
         end
-      end
-
-      def apply_scoping(scoped, source_io)
-        if scoped
-          source_io.gsub(/([[:space:]]*[{]|[[:space:]]*,)/, "[#{@data_attribute}]\\1")
-        else
-          source_io
-        end
+        engine = Sass::Engine.new(sass_io)
+        Converter.visit(engine.to_tree, {}, :sass, "[#{@data_attribute}]")
       end
   end
 end

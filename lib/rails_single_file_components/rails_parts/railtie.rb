@@ -35,7 +35,6 @@ module RailsSingleFileComponents
                 options[:filename] = full_filename
                 options[:importer] = self
                 style_section = StyleTransformPipeline.new(File.read(full_filename), DataAttribute.compute(full_filename)).transform
-                byebug
                 Sass::Engine.new(style_section, options)
               end
             end
@@ -54,7 +53,7 @@ end
 
 module Sprockets
   register_mime_type 'text/single_file_component', extensions: ['.sfc']
-  register_transformer 'text/single_file_component', 'text/css', RailsSingleFileComponents::RailsParts::StyleProcessor
+  register_transformer 'text/single_file_component', 'text/sass', RailsSingleFileComponents::RailsParts::StyleProcessor
 end
 
 # app/assets/stylesheets/components.css.erb
