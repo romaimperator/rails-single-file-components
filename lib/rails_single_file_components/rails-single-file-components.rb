@@ -1,0 +1,1 @@
+require 'rails_single_file_components'
