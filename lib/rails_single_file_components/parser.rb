@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module RailsSingleFileComponents
   class Parser
     attr_reader :xml_source

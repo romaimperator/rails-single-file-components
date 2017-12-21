@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module RailsSingleFileComponents
   module RailsParts
     class MyRailtie < ::Rails::Railtie

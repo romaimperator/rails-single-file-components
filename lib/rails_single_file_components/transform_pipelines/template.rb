@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module RailsSingleFileComponents
   module TransformPipelines
     class Template < Base
@@ -24,7 +25,7 @@ module RailsSingleFileComponents
       def apply_scoping_data_attributes(source_io)
         document = Nokogiri::HTML.fragment(source_io)
         document.traverse do |node|
-          node[@data_attribute] = ""
+          node[@data_attribute] = ''
         end
         document.to_html
       end
