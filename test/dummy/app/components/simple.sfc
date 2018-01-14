@@ -1,14 +1,18 @@
 <template>
   <h1>Hello</h1>
+  <h3>Header 3</h3>
 </template>
 
 <style lang="sass" scoped>
-$fontstuff: 10px
-
 h1
-    font-size: $fontstuff
+  font-size: $fontstuff
 
-div h2
+div
+  h2
     width: 100%
+
+  h2,
+  h3
+      font-weight: 200
 
 </style>

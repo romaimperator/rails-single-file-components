@@ -39,7 +39,7 @@ module RailsSingleFileComponents
                 options[:syntax] = syntax
                 options[:filename] = full_filename
                 options[:importer] = self
-                style_section = TransformPipelines::Style.new(File.read(full_filename), DataAttribute.compute(full_filename)).transform
+                style_section = TransformPipelines::Style.new(File.read(full_filename), DataAttribute.compute(full_filename), false).transform
                 Sass::Engine.new(style_section, options)
               end
             end
