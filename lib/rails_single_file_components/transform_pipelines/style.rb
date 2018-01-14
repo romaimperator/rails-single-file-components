@@ -67,7 +67,7 @@ module RailsSingleFileComponents
         if language == 'sass'
           source_io.split("\n").map do |sass_line|
             case sass_line
-              when /:/
+              when /[:@+$]/,
                 sass_line
               when /,/
                 sass_line_parts = sass_line.split(",").map { |match| match.gsub(/([[:graph:]]+)/, "\\1[#{@data_attribute}]") }
