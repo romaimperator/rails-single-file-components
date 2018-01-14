@@ -22,9 +22,13 @@ module RailsSingleFileComponents
                 { 'sfc' => :sfc, 'css' => :scss }.merge(super)
               end
 
+              alias_method :_old_find, :_find
+
               # Duplicated from the parent class except for the addition of processing with StyleTransformPipeline
               def _find(dir, name, options)
                 full_filename, syntax = Sass::Util.destructure(find_real_file(dir, name, options))
+                return _old_find(dir, name, options) unless syntax == :sfc
+
                 return unless full_filename && File.readable?(full_filename)
 
                 # TODO: this preserves historical behavior, but it's possible
