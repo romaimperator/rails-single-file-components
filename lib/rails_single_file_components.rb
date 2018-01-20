@@ -8,7 +8,6 @@ require 'rails_single_file_components/transform_pipelines/style'
 require 'rails_single_file_components/transform_pipelines/template'
 
 require 'rails_single_file_components/rails_parts/style_processor'
-require 'rails_single_file_components/rails_parts/view_helpers'
 require 'rails_single_file_components/rails_parts/railtie'
 require 'rails_single_file_components/rails_parts/sfc_file_system_resolver'
 

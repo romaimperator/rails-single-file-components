@@ -9,7 +9,6 @@ module RailsSingleFileComponents
         app.config.rails_single_file_components.component_path = 'app/components'
 
         ActiveSupport.on_load(:action_view) do
-          include RailsSingleFileComponents::RailsParts::ViewHelpers
         end
       end
 
