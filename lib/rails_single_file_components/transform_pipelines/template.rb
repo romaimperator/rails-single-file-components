@@ -2,9 +2,8 @@
 module RailsSingleFileComponents
   module TransformPipelines
     class Template < Base
-      def initialize(source_io, filename, view)
+      def initialize(source_io, filename)
         super(source_io, filename)
-        @view = view
       end
 
       def parse(parser, source_io)
@@ -12,22 +11,13 @@ module RailsSingleFileComponents
       end
 
       def post_parse(parser, source_io)
-        source_io = apply_preprocessor(parser.template_metadata['lang'], source_io)
-        apply_scoping_data_attributes(source_io)
+        [apply_scoping_data_attributes(source_io), parser.template_metadata['lang']]
       end
 
       private
 
-      def apply_preprocessor(language, source_io)
-        @view.render inline: source_io, type: language || :erb
-      end
-
       def apply_scoping_data_attributes(source_io)
-        document = Nokogiri::HTML.fragment(source_io)
-        document.traverse do |node|
-          node[@data_attribute] = ''
-        end
-        document.to_html
+        source_io.gsub(/(<\w+)/, "\\1 #{@data_attribute} ")
       end
     end
   end

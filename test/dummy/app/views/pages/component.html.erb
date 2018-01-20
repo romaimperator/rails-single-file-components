@@ -1,1 +1,6 @@
-<%= sfc_component params[:component] %>
+<% #sfc_component params[:component] %>
+
+<%= render('child_block') do %>
+  <h1>Hello! That</h1>
+  <%= render(partial: 'simple', formats: :sfc) %>
+<% end %>

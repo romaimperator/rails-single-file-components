@@ -49,6 +49,11 @@ module RailsSingleFileComponents
 
       initializer 'rails_single_file_components.append_assets_path', group: :all do |app|
         app.config.paths.add "app/components", glob: "*.sfc"
+        ActionController::Base.view_paths = ActionController::Base.view_paths + [RailsSingleFileComponents::RailsParts::SFCFileSystemResolver.new(
+          Rails.root.join("app/components"),
+          ":action{.sfc}",
+        )]
+        # ActionView::Template::Handlers.register_template_handler :sfc, ->(template) { RailsSingleFileComponents::TransformPipelines::Template.new(File.read(template), DataAttribute.compute(template)).transform }
         app.config.assets.paths.unshift('app/components')
         app.config.assets.paths.unshift(*app.config.paths['app/components'].existent_directories)
       end
