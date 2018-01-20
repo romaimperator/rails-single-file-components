@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    rails_single_file_components (0.1.0)
+    rails-single-file-components (0.1.0)
       rails (~> 5.1.4)
       sass (~> 3.5.1)
 
@@ -134,7 +134,7 @@ PLATFORMS
 DEPENDENCIES
   byebug
   haml
-  rails_single_file_components!
+  rails-single-file-components!
   sass-rails
   sqlite3
 
