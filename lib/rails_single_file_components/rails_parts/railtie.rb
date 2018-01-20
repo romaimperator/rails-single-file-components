@@ -52,7 +52,6 @@ module RailsSingleFileComponents
           Rails.root.join("app/components"),
           ":action{.sfc}",
         )]
-        # ActionView::Template::Handlers.register_template_handler :sfc, ->(template) { RailsSingleFileComponents::TransformPipelines::Template.new(File.read(template), DataAttribute.compute(template)).transform }
         app.config.assets.paths.unshift('app/components')
         app.config.assets.paths.unshift(*app.config.paths['app/components'].existent_directories)
       end
