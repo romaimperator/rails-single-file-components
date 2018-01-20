@@ -1,4 +1,4 @@
-<template lang="erb">
+<template>
   <div>
     <h1><%= @a_variable %></h1>
     <p>This is a second top-level tag.</p>

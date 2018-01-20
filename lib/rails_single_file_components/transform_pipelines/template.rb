@@ -11,7 +11,7 @@ module RailsSingleFileComponents
       end
 
       def post_parse(parser, source_io)
-        [apply_scoping_data_attributes(source_io), parser.template_metadata['lang']]
+        [apply_scoping_data_attributes(source_io), parser.template_metadata['lang'] || 'erb']
       end
 
       private

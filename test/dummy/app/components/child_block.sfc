@@ -1,4 +1,4 @@
-<template lang="erb">
+<template>
   <h2>before</h2>
   <%= yield %>
   <p>after</p>
