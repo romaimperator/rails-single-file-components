@@ -1,10 +1,16 @@
 # frozen_string_literal: true
 module RailsSingleFileComponents
   module TransformPipelines
-    class Style < Base
+    class Style
       def initialize(source_io, data_attribute, convert)
-        super(source_io, data_attribute)
+        @source_io = source_io
+        @parser = Parser.new(@source_io)
+        @data_attribute = data_attribute
         @convert = convert
+      end
+
+      def transform
+        post_parse(@parser, parse(@parser, @source_io))
       end
 
       def parse(parser, source_io)
