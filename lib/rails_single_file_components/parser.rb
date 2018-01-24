@@ -19,15 +19,15 @@ module RailsSingleFileComponents
     end
 
     def template_metadata
-      @template_metadata ||= tag_attributes(tag('template'))
+      @template_metadata ||= tag_attributes(@xml_source.at_xpath('template'))
     end
 
     def styles
       @styles ||= tag('style').map do |tag|
         ParsedStyle.new(
-            source: tag_content(tag),
-            lang: tag_attributes(tag)['lang'],
-            scoped?: !!tag_attributes(tag)['scoped']
+          tag_content(tag),
+          tag_attributes(tag)['lang'],
+          !!tag_attributes(tag)['scoped']
         )
       end
     end
@@ -35,7 +35,7 @@ module RailsSingleFileComponents
     private
 
       def tag(tag_name)
-        @xml_source.at_xpath(tag_name)
+        @xml_source.xpath(tag_name)
       end
 
       def tag_content(tag)
