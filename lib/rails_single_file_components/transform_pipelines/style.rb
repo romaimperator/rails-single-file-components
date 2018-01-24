@@ -10,16 +10,10 @@ module RailsSingleFileComponents
       end
 
       def transform
-        post_parse(@parser, parse(@parser, @source_io))
-      end
-
-      def parse(parser, source_io)
-        parser.style
-      end
-
-      def post_parse(parser, source_io)
-        source_io = apply_preprocessor(parser.style_metadata['lang'], source_io)
-        apply_data_attribute(parser.style_metadata['lang'], source_io) if parser.style_metadata['scoped']
+        @parser.styles.map do |style_section|
+          new_source = apply_preprocessor(style_section.lang, style_section.source)
+          apply_data_attribute(style_section.lang, new_source) if style_section.scoped?
+        end.join("\n")
       end
 
       private

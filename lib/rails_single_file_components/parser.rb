@@ -1,5 +1,8 @@
 # frozen_string_literal: true
 module RailsSingleFileComponents
+  # ParsedTemplate = Struct.new(:source, :lang, :scoped?)
+  ParsedStyle = Struct.new(:source, :lang, :scoped?)
+
   class Parser
     attr_reader :xml_source
 
@@ -16,15 +19,17 @@ module RailsSingleFileComponents
     end
 
     def template_metadata
-      @template_metadata ||= tag_attributes('template')
+      @template_metadata ||= tag_attributes(tag('template'))
     end
 
-    def style
-      @style ||= tag_content('style')
-    end
-
-    def style_metadata
-      @style_metadata ||= tag_attributes('style')
+    def styles
+      @styles ||= tag('style').map do |tag|
+        ParsedStyle.new(
+            source: tag_content(tag),
+            lang: tag_attributes(tag)['lang'],
+            scoped?: !!tag_attributes(tag)['scoped']
+        )
+      end
     end
 
     private
@@ -33,8 +38,7 @@ module RailsSingleFileComponents
         @xml_source.at_xpath(tag_name)
       end
 
-      def tag_content(tag_name)
-        tag = tag(tag_name)
+      def tag_content(tag)
         if tag
           tag.children.to_html
         else
@@ -42,8 +46,7 @@ module RailsSingleFileComponents
         end
       end
 
-      def tag_attributes(tag_name)
-        tag = tag(tag_name)
+      def tag_attributes(tag)
         if tag
           Hash[tag.attributes.map { |k, v| [k, v.to_s] }]
         else
