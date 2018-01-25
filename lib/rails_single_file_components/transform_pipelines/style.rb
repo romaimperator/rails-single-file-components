@@ -2,18 +2,19 @@
 module RailsSingleFileComponents
   module TransformPipelines
     class Style
-      def initialize(source_io, data_attribute, convert)
+      def initialize(source_io, data_attribute, compile)
         @source_io = source_io
         @parser = Parser.new(@source_io)
         @data_attribute = data_attribute
-        @convert = convert
+        @compile = compile
       end
 
       def transform
         lang = nil
         all_style_contents = @parser.styles.map do |style_section|
           lang ||= style_section.lang
-          new_source = apply_preprocessor(lang, style_section.source)
+          new_source = style_section.source
+          new_source = apply_preprocessor(lang, new_source) if @compile
           new_source = apply_data_attribute(lang, new_source) if style_section.scoped?
           new_source
         end.join("\n")
@@ -23,15 +24,13 @@ module RailsSingleFileComponents
       private
 
       def apply_preprocessor(language, source_io)
-        case [language, @convert]
-          when ['sass', false], ['sass', true]
+        case language
+          when 'sass'
             source_io
-          when ['scss', false]
-            source_io
-          when ['scss', true]
+          when 'scss'
             Sass::Tree::Visitors::Convert.visit(Sass::Engine.new(source_io, syntax: :scss).to_tree, {}, :sass)
           else
-            [::Sass::CSS.new(source_io).render(:sass), 'sass']
+            fail "Unsupported language found: #{language}"
         end
       end
 
