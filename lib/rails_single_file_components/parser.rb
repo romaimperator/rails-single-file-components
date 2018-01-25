@@ -23,12 +23,18 @@ module RailsSingleFileComponents
     end
 
     def styles
-      @styles ||= tag('style').map do |tag|
-        ParsedStyle.new(
-          tag_content(tag),
-          tag_attributes(tag)['lang'],
-          !!tag_attributes(tag)['scoped']
-        )
+      @styles ||= begin
+        styles = tag('style').map do |tag|
+          ParsedStyle.new(
+              tag_content(tag),
+              normalize_lang(tag_attributes(tag)['lang']),
+              !!tag_attributes(tag)['scoped']
+          )
+        end
+        if styles.map { |s| s.lang }.uniq.size > 1
+          fail "All style sections in a component must use the same CSS language. Languages found are: #{styles.map{ |s| s.lang }}"
+        end
+        styles
       end
     end
 
@@ -51,6 +57,14 @@ module RailsSingleFileComponents
           Hash[tag.attributes.map { |k, v| [k, v.to_s] }]
         else
           {}
+        end
+      end
+
+      def normalize_lang(lang)
+        if ['', 'css', nil].include?(lang)
+          'scss'
+        else
+          lang
         end
       end
   end

@@ -1,0 +1,19 @@
+<template>
+  <h1>Howdy</h1>
+  <p>Things people say</p>
+</template>
+
+<style lang="sass">
+h1
+  color: green
+</style>
+
+<style lang="sass" scoped>
+p
+  font-size: 20px
+</style>
+
+<style lang="sass">
+h1
+  font-size: $funzies
+</style>

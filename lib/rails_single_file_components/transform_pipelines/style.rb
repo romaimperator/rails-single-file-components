@@ -10,11 +10,14 @@ module RailsSingleFileComponents
       end
 
       def transform
-        @parser.styles.map do |style_section|
-          new_source, new_lang = apply_preprocessor(style_section.lang, style_section.source)
-          new_source = apply_data_attribute(new_lang, new_source) if style_section.scoped?
+        lang = nil
+        all_style_contents = @parser.styles.map do |style_section|
+          lang ||= style_section.lang
+          new_source = apply_preprocessor(lang, style_section.source)
+          new_source = apply_data_attribute(lang, new_source) if style_section.scoped?
           new_source
         end.join("\n")
+        [all_style_contents, lang]
       end
 
       private
@@ -22,11 +25,11 @@ module RailsSingleFileComponents
       def apply_preprocessor(language, source_io)
         case [language, @convert]
           when ['sass', false], ['sass', true]
-            [source_io, 'sass']
+            source_io
           when ['scss', false]
-            [source_io, 'scss']
+            source_io
           when ['scss', true]
-            [Sass::Tree::Visitors::Convert.visit(Sass::Engine.new(source_io, syntax: :scss).to_tree, {}, :sass), 'sass']
+            Sass::Tree::Visitors::Convert.visit(Sass::Engine.new(source_io, syntax: :scss).to_tree, {}, :sass)
           else
             [::Sass::CSS.new(source_io).render(:sass), 'sass']
         end

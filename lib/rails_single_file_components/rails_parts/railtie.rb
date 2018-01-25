@@ -35,10 +35,10 @@ module RailsSingleFileComponents
                 # or consistently URI-format.
                 full_filename = full_filename.tr("\\", "/") if Sass::Util.windows?
 
-                options[:syntax] = syntax
                 options[:filename] = full_filename
                 options[:importer] = self
-                style_section = TransformPipelines::Style.new(File.read(full_filename), DataAttribute.compute(full_filename), false).transform
+                style_section, syntax = TransformPipelines::Style.new(File.read(full_filename), DataAttribute.compute(full_filename), false).transform
+                options[:syntax] = syntax
                 Sass::Engine.new(style_section, options)
               end
             end

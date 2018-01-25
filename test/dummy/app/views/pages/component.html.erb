@@ -1,6 +1,8 @@
-<% #sfc_component params[:component] %>
-
-<%= render('child_block') do %>
+<% render('child_block') do %>
   <h1>Hello! That</h1>
-  <%= render(partial: 'simple', formats: :sfc) %>
+  <% render(partial: 'simple', formats: :sfc) %>
 <% end %>
+
+<h1>Root H1</h1>
+<p>Root paragraph</p>
+<%= render 'simple_with_multiple_styles' %>
